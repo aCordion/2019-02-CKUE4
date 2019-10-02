@@ -31,7 +31,35 @@ AABCharacter::AABCharacter()
 		GetMesh()->SetAnimInstanceClass(WARRIOR_ANIM.Class);
 	}
 
+	//{//GTA식
+	////스프링 암
+	//	SpringArm->TargetArmLength = 450.0f;
+	//	SpringArm->SetRelativeRotation(FRotator::ZeroRotator);
+	//	SpringArm->bUsePawnControlRotation = true;
+	//	SpringArm->bInheritPitch = true;
+	//	SpringArm->bInheritRoll = true;
+	//	SpringArm->bInheritYaw = true;
+	//	SpringArm->bDoCollisionTest = true;
+	//	bUseControllerRotationYaw = false;
 
+	//	//캐릭터 회전
+	//	GetCharacterMovement()->bOrientRotationToMovement = true;
+	//	GetCharacterMovement()->RotationRate = FRotator(0.0f, 520.0f, 0.0f);
+	//}
+
+	//디아블로식
+	SpringArm->TargetArmLength = 800.0f;
+	SpringArm->SetRelativeRotation(FRotator(-45.0f, 0.0f, 0.0f));
+	SpringArm->bUsePawnControlRotation = false;
+	SpringArm->bInheritPitch = false;
+	SpringArm->bInheritRoll = false;
+	SpringArm->bInheritYaw = false;
+	SpringArm->bDoCollisionTest = false;
+	bUseControllerRotationYaw = false;
+
+	GetCharacterMovement()->bOrientRotationToMovement = false;
+	GetCharacterMovement()->bUseControllerDesiredRotation = true;
+	GetCharacterMovement()->RotationRate = FRotator(0.0f, 720.0f, 0.0f);
 }
 
 // Called when the game starts or when spawned
@@ -46,6 +74,12 @@ void AABCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	//디아블로식
+	if (DirectionToMove.SizeSquared() > 0.0f) {
+		GetController()->SetControlRotation(FRotationMatrix::MakeFromX(DirectionToMove).Rotator());
+		AddMovementInput(DirectionToMove);
+	}
+
 }
 
 // Called to bind functionality to input
@@ -55,16 +89,36 @@ void AABCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 
 	PlayerInputComponent->BindAxis(TEXT("UpDown"), this, &AABCharacter::UpDown);
 	PlayerInputComponent->BindAxis(TEXT("LeftRight"), this, &AABCharacter::LeftRight);
+	PlayerInputComponent->BindAxis(TEXT("LookUp"), this, &AABCharacter::LookUp);
+	PlayerInputComponent->BindAxis(TEXT("Turn"), this, &AABCharacter::Turn);
 
 }
 
 void AABCharacter::UpDown(float NewAxisValue)
 {
-	AddMovementInput(GetActorForwardVector(), NewAxisValue);
+	//AddMovementInput(GetActorForwardVector(), NewAxisValue);
+	//GTA식
+	//AddMovementInput(FRotationMatrix(GetControlRotation()).GetUnitAxis(EAxis::X), NewAxisValue);
+	//디아블로식
+	DirectionToMove.X = NewAxisValue;
 }
 
 void AABCharacter::LeftRight(float NewAxisValue)
 {
-	AddMovementInput(GetActorRightVector(), NewAxisValue);
+	//AddMovementInput(GetActorRightVector(), NewAxisValue);
+	//GTA식
+	//AddMovementInput(FRotationMatrix(GetControlRotation()).GetUnitAxis(EAxis::Y), NewAxisValue);
+	//디아블로식
+	DirectionToMove.Y = NewAxisValue;
+}
+
+void AABCharacter::LookUp(float NewAxisValue)
+{
+	//AddControllerPitchInput(NewAxisValue);
+}
+
+void AABCharacter::Turn(float NewAxisValue)
+{
+	//AddControllerYawInput(NewAxisValue);
 }
 

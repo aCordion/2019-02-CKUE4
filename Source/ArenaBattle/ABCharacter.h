@@ -35,5 +35,11 @@ public:
 private:
 	void UpDown(float NewAxisValue);
 	void LeftRight(float NewAxisValue);
+	void LookUp(float NewAxisValue);
+	void Turn(float NewAxisValue);
 
+	//네이티브 클래스 초기화
+	//FVector DirectionToMove = FVector::ZeroVector;
+	UPROPERTY(VisibleAnywhere)//DisplayAll ABCharacter DirectionToMove
+	FVector DirectionToMove = FVector::ZeroVector;
 };
