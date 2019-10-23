@@ -38,6 +38,8 @@ private:
 	void LookUp(float NewAxisValue);
 	void Turn(float NewAxisValue);
 
+	void Attack();
+
 	//네이티브 클래스 초기화
 	//FVector DirectionToMove = FVector::ZeroVector;
 	UPROPERTY(VisibleAnywhere)//DisplayAll ABCharacter DirectionToMove
