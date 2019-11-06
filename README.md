@@ -3,3 +3,4 @@
 Need Assets;
 InfinityBladeWarriors
 InfinityBladeGrassLands
+InfinityBladeWeapons
