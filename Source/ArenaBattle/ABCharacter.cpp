@@ -5,6 +5,7 @@
 #include "ABAnimInstance.h"
 #include "ABWeapon.h"
 #include "DrawDebugHelpers.h"
+#include "ABAIController.h"
 
 // Sets default values
 AABCharacter::AABCharacter()
@@ -84,6 +85,9 @@ AABCharacter::AABCharacter()
 		}
 		Weapon->SetupAttachment(GetMesh(), WeaponSocket);
 	}*/
+
+	AIControllerClass = AABAIController::StaticClass();
+	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
 }
 
 // Called when the game starts or when spawned
