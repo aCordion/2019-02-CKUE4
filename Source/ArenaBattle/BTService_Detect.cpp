@@ -15,10 +15,13 @@ UBTService_Detect::UBTService_Detect() {
 void UBTService_Detect::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds) {
 	Super::TickNode(OwnerComp, NodeMemory, DeltaSeconds);
 
-	APawn* ControllingPawn = OwnerComp.GetAIOwner()->GetPawn();
+	//APawn* ControllingPawn = OwnerComp.GetAIOwner()->GetPawn();
+	auto ControllingPawn = OwnerComp.GetAIOwner()->GetPawn();
 	if (nullptr == ControllingPawn) return;
-	UWorld* World = ControllingPawn->GetWorld();
-	FVector Center = ControllingPawn->GetActorLocation();
+	auto Center = ControllingPawn->GetActorLocation();
+	auto World = ControllingPawn->GetWorld();
+	//UWorld* World = ControllingPawn->GetWorld();
+	//FVector Center = ControllingPawn->GetActorLocation();
 	float DetectRadius = 600.0f;
 
 	if (nullptr == World) return;
@@ -32,6 +35,24 @@ void UBTService_Detect::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeM
 		FCollisionShape::MakeSphere(DetectRadius),
 		CollisionQueryParam
 	);
+
+	//OwnerComp.GetBlackboardComponent()->SetValueAsObject(FName(TEXT("Target")), nullptr);
+	if (bResult) {
+		for (auto OverlapResult : OverlapResults) {
+			AABCharacter* ABCharacter = Cast<AABCharacter>(OverlapResult.GetActor());
+			if (ABCharacter && ABCharacter->GetController()->IsPlayerController())
+			{
+				OwnerComp.GetBlackboardComponent()->SetValueAsObject(FName(TEXT("Target")), ABCharacter);
+				DrawDebugSphere(World, Center, DetectRadius, 16, FColor::Green, false, 0.2f);
+				DrawDebugPoint(World, ABCharacter->GetActorLocation(), 10.0f, FColor::Blue, false, 0.2f);
+				DrawDebugLine(World, ControllingPawn->GetActorLocation(), ABCharacter->GetActorLocation(), FColor::Blue, false, 0.2f);
+				return;
+			}
+		}
+	}
+	else {
+		OwnerComp.GetBlackboardComponent()->SetValueAsObject(FName(TEXT("Target")), nullptr);
+	}
 
 	DrawDebugSphere(World, Center, DetectRadius, 16, FColor::Red, false, 0.2f);
 }
