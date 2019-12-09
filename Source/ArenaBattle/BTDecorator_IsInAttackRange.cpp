@@ -7,7 +7,7 @@
 #include "BehaviorTree/BlackboardComponent.h"
 
 UBTDecorator_IsInAttackRange::UBTDecorator_IsInAttackRange() {
-	NodeName = TEXT("CanAttack");
+	NodeName = TEXT("CanMeleeAttack");
 }
 
 bool UBTDecorator_IsInAttackRange::CalculateRawConditionValue(UBehaviorTreeComponent & OwnerComp, uint8 * NodeMemory) const

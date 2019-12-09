@@ -15,6 +15,7 @@ UBTService_Detect::UBTService_Detect() {
 void UBTService_Detect::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds) {
 	Super::TickNode(OwnerComp, NodeMemory, DeltaSeconds);
 
+
 	//APawn* ControllingPawn = OwnerComp.GetAIOwner()->GetPawn();
 	auto ControllingPawn = OwnerComp.GetAIOwner()->GetPawn();
 	if (nullptr == ControllingPawn) return;
@@ -23,7 +24,7 @@ void UBTService_Detect::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeM
 	//UWorld* World = ControllingPawn->GetWorld();
 	//FVector Center = ControllingPawn->GetActorLocation();
 	float DetectRadius = 600.0f;
-
+	
 	if (nullptr == World) return;
 	TArray<FOverlapResult> OverlapResults;
 	FCollisionQueryParams CollisionQueryParam(NAME_None, false, ControllingPawn);

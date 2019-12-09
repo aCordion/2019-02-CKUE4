@@ -3,23 +3,19 @@
 #pragma once
 
 #include "ArenaBattle.h"
-#include "ABAnimInstance.h"
 #include "BehaviorTree/BTService.h"
-#include "BTService_Detect.generated.h"
+#include "BTService_ftDetect.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class ARENABATTLE_API UBTService_Detect : public UBTService
+class ARENABATTLE_API UBTService_ftDetect : public UBTService
 {
 	GENERATED_BODY()
-	
-public:
-	UBTService_Detect();
 
-	UPROPERTY()
-		class UABAnimInstance* ABAnim;
+public:
+	UBTService_ftDetect();
 
 protected:
 	virtual void TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds) override;

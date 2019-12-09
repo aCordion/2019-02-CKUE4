@@ -68,6 +68,7 @@ AABCharacter::AABCharacter()
 	GetCharacterMovement()->JumpZVelocity = 800.0f;
 
 	IsAttacking = false;
+	IsDead = false;
 	MaxCombo = 4;
 	AttackEndComboState();
 
@@ -155,6 +156,7 @@ void AABCharacter::PostInitializeComponents()
 	});
 
 	ABAnim->OnAttackHitCheck.AddUObject(this, &AABCharacter::AttackCheck);
+
 }
 
 float AABCharacter::TakeDamage(float DamageAmount, FDamageEvent const & DamageEvent, AController * EventInstigator, AActor * DamageCauser)
@@ -165,6 +167,7 @@ float AABCharacter::TakeDamage(float DamageAmount, FDamageEvent const & DamageEv
 	if (FinalDamage > 0.0f) {
 		ABAnim->SetDeadAnim();
 		SetActorEnableCollision(false);
+		OnPawnsDead();
 	}
 
 	return FinalDamage;
@@ -232,6 +235,13 @@ void AABCharacter::OnAttackMontageEnded(UAnimMontage * Montage, bool bInterrupte
 	IsAttacking = false;
 	AttackEndComboState();
 	OnAttackEnd.Broadcast();
+}
+
+void AABCharacter::OnPawnsDead()
+{
+	ABCHECK(IsDead);
+	IsDead = true;
+	WhenPawnsDead.Broadcast();
 }
 
 void AABCharacter::AttackStartComboState()

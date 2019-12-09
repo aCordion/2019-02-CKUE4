@@ -7,6 +7,7 @@
 #include "ABCharacter.generated.h"
 
 DECLARE_MULTICAST_DELEGATE(FOnAttackEndDelegate);
+DECLARE_MULTICAST_DELEGATE(FPawnDeadDelegate);
 
 UCLASS()
 class ARENABATTLE_API AABCharacter : public ACharacter
@@ -31,6 +32,7 @@ public:
 	virtual void PostInitializeComponents() override;
 
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
+	FPawnDeadDelegate WhenPawnsDead;	//ÆùÀÌ Á×¾úÀ» °æ¿ì
 
 	UPROPERTY(VisibleAnywhere, Category = Weapon)
 	USkeletalMeshComponent* Weapon;
@@ -55,12 +57,18 @@ private:
 	UFUNCTION()
 	void OnAttackMontageEnded(UAnimMontage* Montage, bool bInterrupted);
 
+	UFUNCTION()
+	void OnPawnsDead();
+
 	void AttackStartComboState();
 	void AttackEndComboState();
 	void AttackCheck();
 
 	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category = Attack, Meta = (AllowPrivateAccess = true))
 	bool IsAttacking;
+
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category = Attack, Meta = (AllowPrivateAccess = true))
+	bool IsDead;	//»ç¸Á
 
 	UPROPERTY()
 	class UABAnimInstance* ABAnim;
