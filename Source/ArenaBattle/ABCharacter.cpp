@@ -228,6 +228,21 @@ void AABCharacter::Attack()
 	//ABLOG_S(Warning);
 }
 
+void AABCharacter::RangedAttack()
+{
+	if (IsAttacking) {
+		return;
+	}
+	else
+	{
+		ABCHECK(CurrentCombo == 0);
+		AttackStartComboState();
+		ABAnim->PlayAttackMontage();
+		ABAnim->JumpToAttackMontageSection(CurrentCombo);
+		IsAttacking = true;
+	}
+}
+
 void AABCharacter::OnAttackMontageEnded(UAnimMontage * Montage, bool bInterrupted)
 {
 	ABCHECK(IsAttacking);

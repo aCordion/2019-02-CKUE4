@@ -44,6 +44,7 @@ public:
 	UCameraComponent* Camera;
 
 	void Attack();
+	void RangedAttack();
 	FOnAttackEndDelegate OnAttackEnd;
 
 private:

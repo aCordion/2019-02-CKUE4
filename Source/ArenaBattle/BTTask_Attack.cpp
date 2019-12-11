@@ -23,7 +23,6 @@ EBTNodeResult::Type UBTTask_Attack::ExecuteTask(UBehaviorTreeComponent & OwnerCo
 	ABCharacter->Attack();
 	IsAttacking = true;
 	ABCharacter->OnAttackEnd.AddLambda([this]()->void {IsAttacking = false; });
-
 	return EBTNodeResult::InProgress;
 }
 

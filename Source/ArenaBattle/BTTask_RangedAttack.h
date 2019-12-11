@@ -23,4 +23,7 @@ protected:
 
 private:
 	bool IsAttacking = false;
+
+	UPROPERTY()
+	TSubclassOf<class AChaseBallActor> ChaseBallClass;
 };

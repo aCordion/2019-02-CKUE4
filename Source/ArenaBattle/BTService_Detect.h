@@ -14,12 +14,12 @@ UCLASS()
 class ARENABATTLE_API UBTService_Detect : public UBTService
 {
 	GENERATED_BODY()
-	
 public:
 	UBTService_Detect();
 
 	UPROPERTY()
-		class UABAnimInstance* ABAnim;
+	class UABAnimInstance* ABAnim;
+
 
 protected:
 	virtual void TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds) override;
